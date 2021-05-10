@@ -20,7 +20,7 @@ const App = () => {
 
   const getRequest = async (searchInput) => {
     // Define url using the api key
-    const url = `http://www.omdbapi.com/?s=${searchInput}&apikey=75fa15f8`;
+    const url = `http://www.omdbapi.com/?s=${searchInput}&apikey=75fa15f8/`;
 
     // Use api and fetch the response
     const response = await fetch(url);
