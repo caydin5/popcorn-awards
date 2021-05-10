@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://caydin5.github.io/popcorn-awards/",
   "dependencies": {
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -14,11 +15,11 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -40,6 +41,9 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.1.0"
+    "autoprefixer": "^9.8.6",
+    "gh-pages": "^3.1.0",
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
   }
 }

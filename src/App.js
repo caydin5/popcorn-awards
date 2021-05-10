@@ -1,9 +1,12 @@
-import './App.css';
+// import './App.css';
+import './index.css';
 import React, { useState, useEffect } from 'react';
 import List from './components/List.js';
+import Heading from './components/Heading.js';
 import Navbar from './components/Navbar.js';
 import Search from './components/Search.js';
 import Nominee from './components/Nominee.js';
+import RemoveNominee from './components/RemoveNominee.js';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -13,6 +16,7 @@ const App = () => {
   const [searchInput, setSearchInput] = useState('');
   // Store nominees value
   const [nominees, setNominees] = useState([]);
+
 
   const getRequest = async (searchInput) => {
     // Define url using the api key
@@ -26,8 +30,21 @@ const App = () => {
 
     // Pass the search input only when it's not empty
     if (responseFinal.Search) {
+      // Filter movies only
+      const responseFilter = responseFinal.Search.filter((movie) => movie.Type == "movie")
       // Update search results using state
-      setMovies(responseFinal.Search);
+      setMovies(responseFilter);
+
+      for (let index = 0; index < movies.length; index++) {
+        // const element = array[index];
+        const urlInfo = `http://www.omdbapi.com/?t=${movies[index].Title}&apikey=75fa15f8`;
+        const responseInfo = await fetch(urlInfo);
+        const responseInfoFinal = await responseInfo.json();
+        
+        // movies[index] = [...movies[index], {"Genre": responseInfoFinal.Genre}];
+        console.log(responseInfoFinal.Genre)
+        
+      }
     }
   }
 
@@ -36,24 +53,64 @@ const App = () => {
     getRequest(searchInput);
   }, [searchInput]);
 
+  // Load from local strage when the page loads
+
+  useEffect(() => {
+    const movieNominees = JSON.parse(localStorage.getItem('popcorn-awards-nominees'));
+
+    if (movieNominees) {
+      setNominees(movieNominees);
+    }
+  }, []);
+
+  // Save nominees to local Storage
+  const saveToLocalStorage = (items) => {
+    localStorage.setItem('popcorn-awards-nominees', JSON.stringify(items));
+  }
+
   const addNominee = (movie) => {
     // Create a temp list with the latest nominee added
     const updatedNominees = [...nominees, movie]
     // Update the main list
-    setNominees(updatedNominees); 
+    setNominees(updatedNominees);
+    saveToLocalStorage(updatedNominees);
+  }
+
+  const removeNominee = (movie) => {
+    // Create a temp list with the latest nominee added
+    const updatedNominees = nominees.filter((nominee) => nominee.imdbID != movie.imdbID)
+    // Update the main list
+    setNominees(updatedNominees);
+    saveToLocalStorage(updatedNominees);
   }
 
   return (
-
-    <div className="container-fluid list">
-      <div className="row d-flex align-items-center mt-4 mb-4">
-        <Navbar heading="Popcorn Awards" />
-        <Search searchInput={searchInput} setSearchInput={setSearchInput} />
-      </div>
-      <div className="row">
-        <List movies={movies} handleNomineesClick={addNominee} nomineeComponent= {Nominee}/>
-      </div>
-    </div>
+    <>
+      <body className="bg bg-gray-700">
+        <header className="top-0 left-0 right-0 z-50">
+          <nav>
+            <div class="container mx-auto flex flex-col md:flex-row flex items-center justify-between px-4 py-6">
+              <Navbar />
+              <Search searchInput={searchInput} setSearchInput={setSearchInput} />
+            </div>
+          </nav>
+        </header>
+        <div className="container mx-auto px-4 pt-16">
+          <div className="popular-movies">
+            <h2 className="uppercase tracking-wider text-lg font-semibold">Search Results</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <List movies={movies} handleNomineesClick={addNominee} nomineeComponent={Nominee} />
+            </div>
+          </div>
+          <div className="nominated-movies">
+            <h2 className="uppercase tracking-wider text-lg font-semibold">Nominated Movies</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <List movies={nominees} handleNomineesClick={removeNominee} nomineeComponent={Nominee} />
+            </div>
+          </div>
+        </div>
+      </body>
+    </>
 
   )
 };
