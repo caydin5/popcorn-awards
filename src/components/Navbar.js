@@ -2,9 +2,9 @@ import React from 'react';
 
 const Navbar = (props) => {
     return (
-        <ul class="flex flex-col md:flex-row items-center">
+        <ul className="flex flex-col md:flex-row items-center">
             <li>
-                <a href="/"><svg class="ml-4 w-12" viewBox="0 0 512.72 512.72" fill="none"><path d="M419.736,133.051c-1.266-7.231-5.732-13.503-12.152-17.064c-5.938-3.65-13.242-4.307-19.736-1.776
+                <a href="/"><svg className="ml-4 w-12" viewBox="0 0 512.72 512.72" fill="none"><path d="M419.736,133.051c-1.266-7.231-5.732-13.503-12.152-17.064c-5.938-3.65-13.242-4.307-19.736-1.776
 	c0-0.512,0.152-1,0.152-1.52c0.113-13.139-10.446-23.883-23.586-23.997c-2.924-0.025-5.828,0.489-8.566,1.517
 	c0-0.512,0.152-1,0.152-1.52c0-13.255-10.745-24-24-24c0-13.255-10.745-24-24-24c-0.52,0-1.008,0.12-1.52,0.152
 	c2.151-5.487,2.012-11.608-0.384-16.992c-3.442-8.278-11.094-14.045-20-15.072c-7.371-0.634-14.619,2.192-19.616,7.648
@@ -17,16 +17,16 @@ const Navbar = (props) => {
 	C414.336,156.185,421.533,144.861,419.736,133.051z" fill="#FDB62F" /></svg></a>
             </li>
             <li className="mb-1.5">
-                <a href="" class="text-2xl mx-2 text-pink-500">Popcorn Awards</a>
+                <a href="" className="text-2xl mx-2 text-pink-500">Popcorn Awards</a>
             </li>
             <li className="md:ml-16 md:mt-0">
-                <a href="{{ route('book') }}" class="text-lg mx-2 text-white hover:text-pink-500 transition {{ (Request::is('/book') ? 'text-pink-500' : '') }}">Movies</a>
+                <a href="{{ route('book') }}" className="text-lg mx-2 text-white hover:text-pink-500 transition {{ (Request::is('/book') ? 'text-pink-500' : '') }}">Movies</a>
             </li>
             <li className="md:ml-6 md:mt-0">
-                <a href="{{ route('home') }}" class="text-lg mx-2 text-white hover:text-pink-500 transition {{ (Request::is('/best') ? 'text-pink-500' : '') }}">Bestsellers</a>
+                <a href="{{ route('home') }}" className="text-lg mx-2 text-white hover:text-pink-500 transition {{ (Request::is('/best') ? 'text-pink-500' : '') }}">Bestsellers</a>
             </li>
             <li className="md:ml-6 md:mt-0">
-                <a href="{{ route('home') }}" class="text-lg mx-2 text-white hover:text-pink-500 transition {{ (Request::is('/authors') ? 'text-pink-500' : '') }}">Actors</a>
+                <a href="{{ route('home') }}" className="text-lg mx-2 text-white hover:text-pink-500 transition {{ (Request::is('/authors') ? 'text-pink-500' : '') }}">Actors</a>
             </li>
         </ul>
     )

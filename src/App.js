@@ -20,7 +20,7 @@ const App = () => {
 
   const getRequest = async (searchInput) => {
     // Define url using the api key
-    const url = `http://www.omdbapi.com/?s=${searchInput}&apikey=75fa15f8/`;
+    const url = `http://www.omdbapi.com/?s=${searchInput}&apikey=75fa15f8`;
 
     // Use api and fetch the response
     const response = await fetch(url);
@@ -40,10 +40,10 @@ const App = () => {
         const urlInfo = `http://www.omdbapi.com/?t=${movies[index].Title}&apikey=75fa15f8`;
         const responseInfo = await fetch(urlInfo);
         const responseInfoFinal = await responseInfo.json();
-        
+
         // movies[index] = [...movies[index], {"Genre": responseInfoFinal.Genre}];
         console.log(responseInfoFinal.Genre)
-        
+
       }
     }
   }
@@ -84,33 +84,52 @@ const App = () => {
     saveToLocalStorage(updatedNominees);
   }
 
+  function Greeting() {
+    if (movies.length == 0) {
+      return (
+        <section className="relative min-h-screen flex items-center">
+          <div className="container mx-auto text-center mb-44">
+            <h2 className="text-4xl sm:text-8xl">Access <span className="text-pink-500">millions</span> of movies</h2>
+            <h3 className="text-2xl sm:text-4xl italic">with Popcorn Awards</h3>
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 p-20">
+            <p className="text-center">Search to explore</p>
+          </div>
+        </section>
+      )
+    }
+    return (
+      <div className="container mx-auto px-4 pt-16">
+        <div className="popular-movies">
+          <h2 className="uppercase tracking-wider text-lg font-semibold">Search Results</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <List movies={movies} handleNomineesClick={addNominee} nomineeComponent={Nominee} />
+          </div>
+        </div>
+        <div className="nominated-movies">
+          <h2 className="uppercase tracking-wider text-lg font-semibold">Nominated Movies</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <List movies={nominees} handleNomineesClick={removeNominee} nomineeComponent={Nominee} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+
   return (
-    <>
-      <body className="bg bg-gray-700">
+      <div className="bg bg-gray-700">
         <header className="top-0 left-0 right-0 z-50">
           <nav>
-            <div class="container mx-auto flex flex-col md:flex-row flex items-center justify-between px-4 py-6">
+            <div className="container mx-auto flex flex-col md:flex-row flex items-center justify-between px-4 py-6">
               <Navbar />
               <Search searchInput={searchInput} setSearchInput={setSearchInput} />
             </div>
           </nav>
+          <Greeting />
         </header>
-        <div className="container mx-auto px-4 pt-16">
-          <div className="popular-movies">
-            <h2 className="uppercase tracking-wider text-lg font-semibold">Search Results</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              <List movies={movies} handleNomineesClick={addNominee} nomineeComponent={Nominee} />
-            </div>
-          </div>
-          <div className="nominated-movies">
-            <h2 className="uppercase tracking-wider text-lg font-semibold">Nominated Movies</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              <List movies={nominees} handleNomineesClick={removeNominee} nomineeComponent={Nominee} />
-            </div>
-          </div>
-        </div>
-      </body>
-    </>
+      </div>
 
   )
 };
